@@ -1,14 +1,18 @@
-const http = require('http');
+var express = require('express');
+var app = express();
+
+var lists_router = require('./routers/listsRouter')
+var items_router = require('./routers/itemsRouter')
 
 const hostname = '127.0.0.1';
 const port = 3000;
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World\n');
-});
+app.use('/list', lists_router)
+app.use('/item', items_router)
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
+var server = app.listen(port, hostname, function () {
+   var host = server.address().address
+   var port = server.address().port
+
+   console.log("Example app listening at http://%s:%s", host, port)
+})
