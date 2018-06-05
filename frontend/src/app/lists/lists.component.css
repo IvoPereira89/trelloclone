@@ -1,0 +1,27 @@
+.list
+{
+  padding: 1px 15px 20px 15px;
+  margin: 0 15px;
+  border: 1px solid rgb(233, 233, 235);
+  background-color: rgb(233, 233, 235);
+  border-radius: 4px;
+  min-width: 300px;
+}
+
+.list > h3
+{
+  color: #5d5d5f;
+}
+
+.list ul
+{
+  padding: 0;
+  list-style-type: none;
+}
+
+.list ul > li
+{
+  padding: 10px 15px;
+  background-color: #FFFFFF;
+  border-radius: 5px;
+}

@@ -4,23 +4,35 @@ import { Inject } from '@angular/core';
 @Component({
   selector: 'app-lists',
   template: `
-    <div *ngFor="let list of lists">
+    <div class="list" *ngFor="let list of lists">
      <h3 (click)="selectList($event, list.id)">{{list.name}}</h3>
-     <app-items [list_id]="list.id"></app-items>
+     <ul *ngFor="let item of list.items">
+      <li>
+        <app-items [item]="item"></app-items>
+      </li>
+     </ul>
     </div>
   `,
-  styles: []
+  styleUrls: ['./lists.component.css']
 })
 export class ListsComponent implements OnInit {
   lists = [];
 
-  constructor(@Inject("lists-service") private listsService ) {}
+  constructor(@Inject("lists-service") private listsService) {}
 
   ngOnInit() {
-    let res = this.listsService.getLists();
+    var lists = [];
+    const listsService = this.listsService;
+    let res = listsService.getLists();
     res.subscribe((response) => {
-      this.lists = response;
+      response.forEach( function(list) {
+        let rest = listsService.findList(list.id);
+        rest.subscribe((response) => {
+          lists.push(response)
+        });
+      });
     });
+    this.lists = lists;
   }
 
   selectList(event, id) {

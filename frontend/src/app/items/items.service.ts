@@ -9,8 +9,8 @@ export class ItemsService {
     this.headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});
   }
 
-  public getItems(list_id) {
-    return this.http.get("http://localhost:3000/list/" + list_id, {headers: this.headers});
+  public getItems() {
+    return this.http.get("http://localhost:3000/items", {headers: this.headers});
   }
 
   public findItem(id) {

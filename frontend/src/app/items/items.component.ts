@@ -4,28 +4,23 @@ import { Inject } from "@angular/core";
 @Component({
   selector: "app-items",
   template: `
-    <ul *ngFor="let item of items.items">
-     <li (click)="selectItem($event, item.id)" >
-       <div>
-         <div>Title: {{item.title}}</div>
-         <div>Description: {{item.description}}</div>
-       </div>
-     </li>
-    </ul>
+     <div (click)="selectItem($event, item.id)">
+       <h4>{{item.title}}</h4>
+       <small>{{item.description}}</small>
+     </div>
   `,
-  styles: []
+  styleUrls: ['./items.component.css']
 })
 export class ItemsComponent implements OnInit {
-  @Input() list_id;
 
-  items = [];
+  @Input() item;
 
   constructor(@Inject("items-service") private itemsService) {}
 
   ngOnInit() {
-    let res = this.itemsService.getItems(this.list_id);
-    res.subscribe(response => {
-      this.items = response;
-    });
+  }
+
+  selectItem(event, id) {
+    console.log(id)
   }
 }
