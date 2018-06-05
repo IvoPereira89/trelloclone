@@ -5,24 +5,30 @@ import { HttpClientModule } from '@angular/common/http';
 //import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { ListsComponent } from './lists/lists.component';
 
-import { ListService } from './lists/list.service';
+import { ListsComponent } from './lists/lists.component';
+import { ListsService } from './lists/lists.service';
+
+import { ItemsComponent } from './items/items.component';
+import { ItemsService } from './items/items.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ListsComponent
+    ListsComponent,
+    ItemsComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule
   ],
   providers: [
-    { provide: "list-service", useClass: ListService }
+    { provide: "lists-service", useClass: ListsService },
+    { provide: "items-service", useClass: ItemsService }
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule
 {
 
