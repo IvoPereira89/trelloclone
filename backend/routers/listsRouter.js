@@ -9,8 +9,7 @@ router.get('/:id', function (req, res) {
 })
 
 router.get('/', function (req, res) {
-    res.send(lists_processor.getLists());
+  res.send(lists_processor.getLists());
 })
 
 module.exports = router;
-
