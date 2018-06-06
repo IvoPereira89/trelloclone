@@ -36,11 +36,11 @@ export class ItemsComponent {
       <label for="description">Description</label>
       <input #itemDescription name="item[description]" type="text" value={{item.description}}>
     </div>
-    <button type="button" (click)="onUpdate($event, {
+    <button type="button" (click)="onSave($event, {
       id: item.id,
       title: itemTitle.value,
       description: itemDescription.value
-    })">Save</button>
+    }, item)">Save</button>
   </div>`
 })
 export class ItemsFormComponent implements OnDestroy {
@@ -52,8 +52,12 @@ export class ItemsFormComponent implements OnDestroy {
 
   ngOnDestroy() {}
 
-  onUpdate(event, item) {
-    const res = this.itemsService.updateItem(item);
+  onSave(event, item, original) {
+    if (original !== {}) {
+      const res = this.itemsService.updateItem(item);
+    } else {
+      const res = this.itemsService.createItem(item);
+    }
     res.subscribe(
       (response) => {
         const element = event.target;
