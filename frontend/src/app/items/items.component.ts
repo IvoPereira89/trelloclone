@@ -45,7 +45,7 @@ export class ItemsComponent {
 })
 export class ItemsFormComponent implements OnDestroy {
   @Input() item: Object = {};
-  @ViewChild('itemFormContainer', { read: ViewContainerRef }) itemFormContainer: viewContainerRef;
+  @ViewChild('itemFormContainer', { read: ViewContainerRef }) _itemFormContainer;
 
   constructor(@Inject('items-service') private itemsService,
     @Inject('dynamic-item-service') private dynamicItemService) {}
@@ -57,7 +57,7 @@ export class ItemsFormComponent implements OnDestroy {
     res.subscribe(
       (response) => {
         const element = event.target;
-        this.dynamicItemService.setRootViewContainerRef(this.itemFormContainer);
+        this.dynamicItemService.setRootViewContainerRef(this._itemFormContainer);
         this.dynamicItemService.addDynamicComponent(response, ItemsComponent);
         element.parentNode.remove();
       },

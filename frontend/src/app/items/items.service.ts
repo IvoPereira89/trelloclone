@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+  import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { ComponentFactoryResolver, ReflectiveInjector, Inject, Injectable } from '@angular/core';
 
 import { ItemsComponent, ItemsFormComponent } from './items.component';
@@ -38,8 +38,8 @@ export class DynamicItemService {
     this.rootViewContainer = viewContainerRef;
   }
 
-  addDynamicComponent(item, component) {
-    const factory = this.factoryResolver.resolveComponentFactory(component);
+  addDynamicComponent(item, chosenComponent) {
+    const factory = this.factoryResolver.resolveComponentFactory(chosenComponent);
     const component = factory.create(this.rootViewContainer.parentInjector);
     component.instance.item = item;
     this.rootViewContainer.insert(component.hostView);
