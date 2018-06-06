@@ -8,8 +8,7 @@ function manipulateItem (data, action) {
     var fileObject = JSON.parse(content)
     if (action === 'create') {
       fileObject.items.push(data)
-    }
-    if (action === 'update') {
+    } else if (action === 'update') {
       fileObject.items.map((item) => {
         if (item.id === data.id) {
           item.title = data.title
