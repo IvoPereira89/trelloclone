@@ -1,5 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { ComponentFactoryResolver, ReflectiveInjector, Inject, Injectable } from '@angular/core';
+
+import { ItemsFormComponent } from './items.component';
 
 @Injectable()
 export class ItemsService {
@@ -10,11 +12,37 @@ export class ItemsService {
   }
 
   public getItems() {
-    return this.http.get("http://localhost:3000/items", {headers: this.headers});
+    return this.http.get('http://localhost:3000/items', {headers: this.headers});
   }
 
   public findItem(id) {
-    return this.http.get("http://localhost:3000/item/" + id, {headers: this.headers});
+    return this.http.get('http://localhost:3000/item/' + id, {headers: this.headers});
+  }
+
+  public updateItem(item) {
+    return this.http.put('http://localhost:3000/item/' + item.id, item, { headers: this.headers});
+  }
+
+}
+
+@Injectable()
+export class ItemsFormService {
+  factoryResolver = null;
+  rootViewContainer = null;
+
+  constructor(@Inject(ComponentFactoryResolver) factoryResolver) {
+    this.factoryResolver = factoryResolver;
+  }
+
+  setRootViewContainerRef(viewContainerRef) {
+    this.rootViewContainer = viewContainerRef;
+  }
+
+  addDynamicComponent(item) {
+    const factory = this.factoryResolver.resolveComponentFactory(ItemsFormComponent);
+    const component = factory.create(this.rootViewContainer.parentInjector);
+    component.instance.item = item;
+    this.rootViewContainer.insert(component.hostView);
   }
 
 }

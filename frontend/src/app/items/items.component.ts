@@ -1,47 +1,59 @@
-import { Component, OnInit, OnDestroy, Input, Inject } from "@angular/core";
+import { Component, OnDestroy, Input, Output, ViewChild, Inject, ViewContainerRef } from '@angular/core';
 
 @Component({
-  selector: "app-items",
+  selector: 'app-items',
   template: `
-     <div>
+     <div #itemContainer>
        <h4 class="deb" (click)="selectItem($event, item)">{{item.title}}</h4>
        <small>{{item.description}}</small>
      </div>
   `,
-  styleUrls: ["./items.component.css"]
+  styleUrls: ['./items.component.css']
 })
-export class ItemsComponent implements OnInit {
-  @Input() item;
+export class ItemsComponent {
+  @Input() item: Object = {};
+  @ViewChild('itemContainer', { read: ViewContainerRef }) _itemContainer;
 
-  constructor(@Inject("items-service") private itemsService) {}
-
-  ngOnInit() {}
+  constructor(@Inject('items-form-service') private itemsFormService) {}
 
   selectItem(event, item) {
     const element = event.target;
-    element.parentElement.innerHTML = item;
+    this.itemsFormService.setRootViewContainerRef(this._itemContainer);
+    this.itemsFormService.addDynamicComponent(item);
+    element.parentNode.remove();
   }
 }
 
 @Component({
-  selector: "app-item-form",
+  selector: 'app-item-form',
   template: `
     <div id="item-form">
     <div>
       <label for="title">Title</label>
-      <input name="title" type="text" value={{item.title}}></input>
+      <input #itemTitle name="item[title]" type="text" value={{item.title}}>
     </div>
     <div>
       <label for="description">Description</label>
-      <input name="description" type="text" value={{item.description}}></input>
+      <input #itemDescription name="item[description]" type="text" value={{item.description}}>
     </div>
-    <button type="button" (click)="saveItem($event)">Save</button>
+    <button type="button" (click)="onUpdate({
+      id: item.id,
+      name: itemTitle.value,
+      description: itemDescription.value
+    })">Save</button>
   </div>`
 })
-export class ItemForm implements OnInit, OnDestroy {
-  @Input() item;
+export class ItemsFormComponent implements OnDestroy {
+  @Input() item: Object = {};
+
+  constructor(@Inject('items-service') private itemsService) {}
 
   ngOnDestroy() {}
-  ngOnInit() {}
-  saveItem(event) {}
+
+  onUpdate(item) {
+    const res = this.itemsService.updateItem(item);
+    res.subscribe((response) => {
+      console.log(response);
+    });
+  }
 }
