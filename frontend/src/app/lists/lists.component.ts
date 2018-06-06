@@ -1,14 +1,12 @@
-import { Component, Inject, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { ItemsFormComponent } from '../items/items.component';
+import { Component, Inject, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-lists',
   template: `
     <div class="list" *ngFor="let list of lists">
      <h3 (click)="selectList($event, list.id)">{{list.name}}</h3>
-     <button #itemContainer type="button" (click)="onCreate($event)">New</button>
-     <ul>
-      <li *ngFor="let item of list.items">
+     <ul *ngFor="let item of list.items">
+      <li>
         <app-items [item]="item"></app-items>
       </li>
      </ul>
@@ -18,10 +16,8 @@ import { ItemsFormComponent } from '../items/items.component';
 })
 export class ListsComponent implements OnInit {
   lists = [];
-  @ViewChild('itemContainer', { read: ViewContainerRef }) itemContainer: ViewContainerRef;
 
-  constructor(@Inject("lists-service") private listsService,
-    @Inject('dynamic-item-service') private dynamicItemService) {}
+  constructor(@Inject("lists-service") private listsService) {}
 
   ngOnInit() {
     var lists = [];
@@ -36,11 +32,6 @@ export class ListsComponent implements OnInit {
       });
     });
     this.lists = lists;
-  }
-
-  onCreate(event) {
-    this.dynamicItemService.setRootViewContainerRef(this.itemContainer);
-    this.dynamicItemService.addDynamicComponent({}, ItemsFormComponent);
   }
 
   selectList(event, id) {

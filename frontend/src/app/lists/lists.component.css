@@ -13,12 +13,6 @@
   color: #5d5d5f;
 }
 
-.list > button[type='button']
-{
-  float: right;
-  margin-top: -37px;
-}
-
 .list ul
 {
   padding: 0;
@@ -28,12 +22,6 @@
 .list ul > li
 {
   padding: 10px 15px;
-  margin-bottom: 15px;
   background-color: #FFFFFF;
   border-radius: 5px;
-}
-
-.list ul > li:last-child
-{
-  margin-bottom: 0;
 }
