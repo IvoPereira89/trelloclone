@@ -7,6 +7,7 @@ function manipulateItem (data, action) {
     if (err) throw err
     var fileObject = JSON.parse(content)
     if (action === 'create') {
+      data.push({id: db.items[db.items.length - 1].id})
       fileObject.items.push(data)
     } else if (action === 'update') {
       fileObject.items.map((item) => {
@@ -40,12 +41,16 @@ exports.getItem = function (id) {
     return {};
 }
 
-exports.updateItem = function (id, data) {
+exports.createItem = function (data) {
   const item = _this.getItem(id)
   if (item) {
     return manipulateItem(data, 'update')
   }
   return {}
+}
+
+exports.updateItem = function (id, data) {
+  return manipulateItem(data, 'create')
 }
 
 exports.getLists = function () {
