@@ -1,5 +1,30 @@
 var fs = require('fs');
 var db = JSON.parse(fs.readFileSync('./db.json', 'utf8'));
+var _this = this
+
+function manipulateItem (data, action) {
+  fs.readFile('./db.json', function (err, content) {
+    if (err) throw err
+    var fileObject = JSON.parse(content)
+    if (action === 'create') {
+      fileObject.items.push(data)
+    } else if (action === 'update') {
+      fileObject.items.map((item) => {
+        if (item.id === data.id) {
+          item.title = data.title
+          item.description = data.description
+        }
+      })
+    } else {
+      return {}
+    }
+    const json = JSON.stringify(fileObject, null, 2)
+    fs.writeFile('./db.json', json, 'utf8', function (err) {
+      if (err) throw err
+    })
+  })
+  return data
+}
 
 exports.getItems = function () {
     return db.items;
@@ -13,6 +38,14 @@ exports.getItem = function (id) {
     }
 
     return {};
+}
+
+exports.updateItem = function (id, data) {
+  const item = _this.getItem(id)
+  if (item) {
+    return manipulateItem(data, 'update')
+  }
+  return {}
 }
 
 exports.getLists = function () {
