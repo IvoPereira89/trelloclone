@@ -8,24 +8,23 @@ import { Component, OnInit, OnDestroy, Input, Inject } from "@angular/core";
        <small>{{item.description}}</small>
      </div>
   `,
-  styleUrls: ['./items.component.css']
+  styleUrls: ["./items.component.css"]
 })
 export class ItemsComponent implements OnInit {
   @Input() item;
 
   constructor(@Inject("items-service") private itemsService) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   selectItem(event, item) {
     const element = event.target;
-    element.parentElement.innerHTML = form;
+    element.parentElement.innerHTML = item;
   }
 }
 
 @Component({
-  selector: 'app-item-form',
+  selector: "app-item-form",
   template: `
     <div id="item-form">
     <div>
@@ -42,7 +41,7 @@ export class ItemsComponent implements OnInit {
 export class ItemForm implements OnInit, OnDestroy {
   @Input() item;
 
-  saveItem(event){
-
-  }
+  ngOnDestroy() {}
+  ngOnInit() {}
+  saveItem(event) {}
 }
