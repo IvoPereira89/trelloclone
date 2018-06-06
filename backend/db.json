@@ -2,9 +2,10 @@
   "items": [
     {
       "id": 1,
-      "title": "My First Ticket",
-      "description": "Kill Lord Voldemort",
-      "list_id": 1
+      "title": "My First",
+      "description": "Kill Deathclaw and Dragons",
+      "list_id": 1,
+      "name": "My First and Only Ticket"
     },
     {
       "id": 2,

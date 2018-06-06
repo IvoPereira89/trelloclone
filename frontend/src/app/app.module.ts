@@ -10,7 +10,7 @@ import { ListsComponent } from './lists/lists.component';
 import { ListsService } from './lists/lists.service';
 
 import { ItemsComponent, ItemsFormComponent } from './items/items.component';
-import { ItemsService, ItemsFormService } from './items/items.service';
+import { ItemsService, DynamicItemService } from './items/items.service';
 
 @NgModule({
   declarations: [
@@ -26,10 +26,13 @@ import { ItemsService, ItemsFormService } from './items/items.service';
   providers: [
     { provide: 'lists-service', useClass: ListsService },
     { provide: 'items-service', useClass: ItemsService },
-    { provide: 'items-form-service', useClass: ItemsFormService }
+    { provide: 'dynamic-item-service', useClass: DynamicItemService }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ItemsFormComponent]
+  entryComponents: [
+    ItemsComponent,
+    ItemsFormComponent
+  ]
 })
 
 export class AppModule {}

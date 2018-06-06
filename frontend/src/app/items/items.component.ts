@@ -14,12 +14,12 @@ export class ItemsComponent {
   @Input() item: Object = {};
   @ViewChild('itemContainer', { read: ViewContainerRef }) _itemContainer;
 
-  constructor(@Inject('items-form-service') private itemsFormService) {}
+  constructor(@Inject('dynamic-item-service') private dynamicItemService) {}
 
   selectItem(event, item) {
     const element = event.target;
-    this.itemsFormService.setRootViewContainerRef(this._itemContainer);
-    this.itemsFormService.addDynamicComponent(item);
+    this.dynamicItemService.setRootViewContainerRef(this._itemContainer);
+    this.dynamicItemService.addDynamicComponent(item, ItemsFormComponent);
     element.parentNode.remove();
   }
 }
@@ -27,7 +27,7 @@ export class ItemsComponent {
 @Component({
   selector: 'app-item-form',
   template: `
-    <div id="item-form">
+    <div id="item-form" #itemFormContainer>
     <div>
       <label for="title">Title</label>
       <input #itemTitle name="item[title]" type="text" value={{item.title}}>
@@ -36,24 +36,34 @@ export class ItemsComponent {
       <label for="description">Description</label>
       <input #itemDescription name="item[description]" type="text" value={{item.description}}>
     </div>
-    <button type="button" (click)="onUpdate({
+    <button type="button" (click)="onUpdate($event, {
       id: item.id,
-      name: itemTitle.value,
+      title: itemTitle.value,
       description: itemDescription.value
     })">Save</button>
   </div>`
 })
 export class ItemsFormComponent implements OnDestroy {
   @Input() item: Object = {};
+  @ViewChild('itemFormContainer', { read: ViewContainerRef }) itemFormContainer: viewContainerRef;
 
-  constructor(@Inject('items-service') private itemsService) {}
+  constructor(@Inject('items-service') private itemsService,
+    @Inject('dynamic-item-service') private dynamicItemService) {}
 
   ngOnDestroy() {}
 
-  onUpdate(item) {
+  onUpdate(event, item) {
     const res = this.itemsService.updateItem(item);
-    res.subscribe((response) => {
-      console.log(response);
-    });
+    res.subscribe(
+      (response) => {
+        const element = event.target;
+        this.dynamicItemService.setRootViewContainerRef(this.itemFormContainer);
+        this.dynamicItemService.addDynamicComponent(response, ItemsComponent);
+        element.parentNode.remove();
+      },
+      (err) => {
+        console.log('Something went wrong.');
+      }
+    );
   }
 }
