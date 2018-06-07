@@ -7,7 +7,7 @@ function manipulateItem (data, action) {
     if (err) throw err
     var fileObject = JSON.parse(content)
     if (action === 'create') {
-      data.id = db.items[db.items.length - 1].id
+      data.id = db.items[db.items.length - 1].id + 1
       fileObject.items.push(data)
     } else if (action === 'update') {
       fileObject.items.map((item) => {
