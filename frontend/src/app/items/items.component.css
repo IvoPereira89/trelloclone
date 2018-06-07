@@ -4,7 +4,7 @@ h4
   cursor: pointer;
 }
 
-.item-form
+::ng-deep .list > app-item-form > div
 {
   background-color: #FFFFFF;
   border-radius: 4px;

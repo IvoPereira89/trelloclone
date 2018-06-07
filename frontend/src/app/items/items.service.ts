@@ -19,12 +19,8 @@ export class ItemsService {
     return this.http.get('http://localhost:3000/item/' + id, {headers: this.headers});
   }
 
-  public createItem(item) {
+  public saveItem(item) {
     return this.http.post('http://localhost:3000/item/', item, { headers: this.headers});
-  }
-
-  public updateItem(item) {
-    return this.http.put('http://localhost:3000/item/' + item.id, item, { headers: this.headers});
   }
 
 }
@@ -43,6 +39,7 @@ export class DynamicItemService {
   }
 
   addDynamicComponent(item, chosenComponent) {
+    if (!item || !chosenComponent) { return; }
     this.rootViewContainer.clear();
     const factory = this.factoryResolver.resolveComponentFactory(chosenComponent);
     const component = factory.create(this.rootViewContainer.parentInjector);

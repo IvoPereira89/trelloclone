@@ -1,6 +1,6 @@
 var express = require('express')
 var cors = require('cors')
-var app = express()
+var expressValidator = require('express-validator')
 
 var lists_router = require('./routers/listsRouter')
 var items_router = require('./routers/itemsRouter')
@@ -8,8 +8,10 @@ var items_router = require('./routers/itemsRouter')
 const hostname = '127.0.0.1'
 const port = 3000
 
+var app = express()
 app.use(cors())
 app.use(express.json())
+app.use(expressValidator())
 app.use('/list', lists_router)
 app.use('/item', items_router)
 
