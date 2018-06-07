@@ -39,8 +39,9 @@ export class ItemsComponent {
     <button type="button" (click)="onSave($event, {
       id: item.id,
       title: itemTitle.value,
-      description: itemDescription.value
-    }, item)">Save</button>
+      description: itemDescription.value,
+      list_id: item.list_id
+    })">Save</button>
   </div>`,
   styleUrls: ['./items.component.css']
 })
@@ -53,16 +54,8 @@ export class ItemsFormComponent implements OnDestroy {
 
   ngOnDestroy() {}
 
-  createOrUpdateItem(item, original) {
-    item.list_id = original.list_id;
-    if (original.length !== 1) {
-      return this.itemsService.createItem(item);
-    }
-    return this.itemsService.updateItem(item);
-  }
-
-  onSave(event, item, original) {
-    const res = this.createOrUpdateItem(item, original);
+  onSave(event, item) {
+    const res = this.itemsService.saveItem(item);
     res.subscribe(
       (response) => {
         const element = event.target;
