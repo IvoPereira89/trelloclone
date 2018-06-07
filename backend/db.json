@@ -24,6 +24,12 @@
       "description": "Lorem Ipsum vai dar uma volta",
       "list_id": 1,
       "id": 4
+    },
+    {
+      "title": "Fourth ticket",
+      "description": "Só porque sim",
+      "list_id": 2,
+      "id": 5
     }
   ],
   "lists": [

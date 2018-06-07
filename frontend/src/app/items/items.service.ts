@@ -39,6 +39,7 @@ export class DynamicItemService {
   }
 
   addDynamicComponent(item, chosenComponent) {
+    if (!item || !chosenComponent) { return; }
     this.rootViewContainer.clear();
     const factory = this.factoryResolver.resolveComponentFactory(chosenComponent);
     const component = factory.create(this.rootViewContainer.parentInjector);
