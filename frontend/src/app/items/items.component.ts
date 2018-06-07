@@ -27,7 +27,7 @@ export class ItemsComponent {
 @Component({
   selector: 'app-item-form',
   template: `
-    <div id="item-form" #itemFormContainer>
+    <div class="item-form" #itemFormContainer>
     <div>
       <label for="title">Title</label>
       <input #itemTitle name="item[title]" type="text" value={{item.title}}>
@@ -41,7 +41,8 @@ export class ItemsComponent {
       title: itemTitle.value,
       description: itemDescription.value
     }, item)">Save</button>
-  </div>`
+  </div>`,
+  styleUrls: ['./items.component.css']
 })
 export class ItemsFormComponent implements OnDestroy {
   @Input() item: Object = {};
@@ -53,11 +54,9 @@ export class ItemsFormComponent implements OnDestroy {
   ngOnDestroy() {}
 
   onSave(event, item, original) {
-    if (original !== {}) {
-      const res = this.itemsService.updateItem(item);
-    } else {
-      const res = this.itemsService.createItem(item);
-    }
+    item.list_id = original.list_id;
+    console.log(item);
+    const res = (original.length !== 1) ? this.itemsService.createItem(item) : this.itemsService.updateItem(item);
     res.subscribe(
       (response) => {
         const element = event.target;

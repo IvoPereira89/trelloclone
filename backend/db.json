@@ -12,6 +12,12 @@
       "title": "My Second Ticket",
       "description": "Take the ring to Mordor",
       "list_id": 1
+    },
+    {
+      "title": "Teste",
+      "description": "testing descri",
+      "list_id": 1,
+      "id": 2
     }
   ],
   "lists": [

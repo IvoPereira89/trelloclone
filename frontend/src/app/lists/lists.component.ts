@@ -6,7 +6,7 @@ import { ItemsFormComponent } from '../items/items.component';
   template: `
     <div class="list" *ngFor="let list of lists">
      <h3 (click)="selectList($event, list.id)">{{list.name}}</h3>
-     <button #itemContainer type="button" (click)="onCreate($event)">New</button>
+     <button #itemContainer type="button" (click)="onCreate($event, list.id)">New</button>
      <ul>
       <li *ngFor="let item of list.items">
         <app-items [item]="item"></app-items>
@@ -38,9 +38,9 @@ export class ListsComponent implements OnInit {
     this.lists = lists;
   }
 
-  onCreate(event) {
+  onCreate(event, list_id) {
     this.dynamicItemService.setRootViewContainerRef(this.itemContainer);
-    this.dynamicItemService.addDynamicComponent({}, ItemsFormComponent);
+    this.dynamicItemService.addDynamicComponent({list_id: list_id}, ItemsFormComponent);
   }
 
   selectList(event, id) {
