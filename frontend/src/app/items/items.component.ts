@@ -57,9 +57,8 @@ export class ItemsFormComponent implements OnDestroy {
     item.list_id = original.list_id;
     if (original.length !== 1) {
       return this.itemsService.createItem(item);
-    } else {
-      return this.itemsService.updateItem(item);
     }
+    return this.itemsService.updateItem(item);
   }
 
   onSave(event, item, original) {
