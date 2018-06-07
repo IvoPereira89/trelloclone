@@ -22,6 +22,12 @@ Processor.prototype.getItem = function(id) {
     return item.data;
 }
 
+Processor.prototype.createItem = function(data) {
+    item_data = db_helper.createItem(data);
+    var item = new Item(item_data);
+    return item.data;
+}
+
 Processor.prototype.updateItem = function (id, data) {
   const item_data = db_helper.updateItem(id, data)
   const item = new Item(item_data)
