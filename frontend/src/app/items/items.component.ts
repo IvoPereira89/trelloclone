@@ -53,10 +53,17 @@ export class ItemsFormComponent implements OnDestroy {
 
   ngOnDestroy() {}
 
-  onSave(event, item, original) {
+  createOrUpdateItem(item, original) {
     item.list_id = original.list_id;
-    console.log(item);
-    const res = (original.length !== 1) ? this.itemsService.createItem(item) : this.itemsService.updateItem(item);
+    if (original.length !== 1) {
+      return this.itemsService.createItem(item);
+    } else {
+      return this.itemsService.updateItem(item);
+    }
+  }
+
+  onSave(event, item, original) {
+    const res = this.createOrUpdateItem(item, original);
     res.subscribe(
       (response) => {
         const element = event.target;
