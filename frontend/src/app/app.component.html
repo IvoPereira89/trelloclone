@@ -1,8 +1,12 @@
 <header>
   <h1>{{ title }}</h1>
+  <nav>
+    <a mat-button routerLink="/">Home</a>
+  </nav>
 </header>
 <div class="container">
-  <app-lists></app-lists>
+  <app-item-search></app-item-search>
+  <router-outlet></router-outlet>
 </div>
 <footer>
 

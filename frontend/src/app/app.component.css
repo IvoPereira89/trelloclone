@@ -23,6 +23,17 @@ header > h1::before
   background-color: #FFFFFF;
 }
 
+header > nav > a
+{
+  color: #FFFFFF !important;
+  text-decoration: none !important;
+}
+
+header > nav > a:hover
+{
+  color: rgb(31, 164, 204) !important;
+}
+
 app-lists
 {
   display: flex;

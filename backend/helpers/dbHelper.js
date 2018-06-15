@@ -2,8 +2,8 @@ var fs = require('fs');
 var db = JSON.parse(fs.readFileSync('./db.json', 'utf8'));
 var _this = this
 
-exports.getItems = function () {
-  return db.items
+exports.getItems = function (query = {}) {
+  return query.list_id || query.term ? itemsForList(query) : db.items
 }
 
 exports.getItem = function (id) {
@@ -14,6 +14,19 @@ exports.getItem = function (id) {
       }
     }
   }
+  return {}
+}
+
+exports.deleteItem = function (id) {
+  fs.readFile('./db.json', function (err, content) {
+    if (err) throw err
+    var fileObject = JSON.parse(content)
+    fileObject.items = fileObject.items.filter((item) => { return item.id !== parseInt(id) })
+    const json = JSON.stringify(fileObject, null, 2)
+    fs.writeFile('./db.json', json, 'utf8', function (err) {
+      if (err) throw err
+    })
+  });
   return {}
 }
 
@@ -57,13 +70,26 @@ exports.getList = function (id) {
   }
 }
 
-var itemsForList = function (id) {
-    var items = [];
-
+var itemsForList = function (query) {
+    var items = []
+    var config = []
+    switch(Object.keys(query)[0]) {
+      case "list_id":
+        config = ['list_id', query.list_id]
+        break
+      case "term":
+        config = ['title', query.term.toString().toLowerCase()]
+        break
+      default:
+        config = ['list_id', query]
+    }
     for (let item of db.items) {
-        if (item.list_id == id) {
-            items.push(item);
-        }
+      if (config[0] !== 'title') {
+        if (item[config[0]] == config[1]) { items.push(item) }
+      } else {
+        if (item[config[0]].toLowerCase().includes(config[1])) { items.push(item); }
+      }
+        
     }
 
     return items;

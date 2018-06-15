@@ -6,11 +6,17 @@ Processor = require('../processors/itemsProcessor.js')
 var item_processor = new Processor()
 
 router.get('/', function (req, res) {
-  res.send(item_processor.getItems())
+  req.checkQuery('term', 'The term for the search is not a String').isString()
+  req.checkQuery('list_id', 'The reference provided is not a Number.').isInt()
+  res.send(item_processor.getItems(req.query))
 })
 
 router.get('/:id', function (req, res) {
   res.send(item_processor.getItem(req.params.id))
+})
+
+router.delete('/:id', function (req, res) {
+  res.send(item_processor.deleteItem(req.params.id))
 })
 
 router.post('/', function (req, res) {

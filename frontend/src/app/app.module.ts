@@ -1,38 +1,37 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-// import { HttpModule} from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
+import { ListsComponent, ListsService } from './lists';
+import { ItemsComponents, ItemsService } from './items';
 
-import { ListsComponent } from './lists/lists.component';
-import { ListsService } from './lists/lists.service';
+import { MatFormFieldModule, MatInputModule, MatButtonModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { ItemsComponent, ItemsFormComponent } from './items/items.component';
-import { ItemsService, DynamicItemService } from './items/items.service';
+import { AppRoutingModule } from './/app-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     ListsComponent,
-    ItemsComponent,
-    ItemsFormComponent
+    ItemsComponents
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule, MatButtonModule, MatInputModule
   ],
   providers: [
     { provide: 'lists-service', useClass: ListsService },
-    { provide: 'items-service', useClass: ItemsService },
-    { provide: 'dynamic-item-service', useClass: DynamicItemService }
+    { provide: 'items-service', useClass: ItemsService }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [
-    ItemsComponent,
-    ItemsFormComponent
-  ]
+  entryComponents: []
 })
 
 export class AppModule {}

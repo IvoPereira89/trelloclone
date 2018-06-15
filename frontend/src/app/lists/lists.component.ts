@@ -1,50 +1,50 @@
-import { Component, Inject, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { ItemsFormComponent } from '../items/items.component';
+import { Component, Inject, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { List, ListInterface } from './list.model';
 
 @Component({
   selector: 'app-lists',
-  template: `
-    <div class="list" *ngFor="let list of lists">
-     <h3 (click)="selectList($event, list.id)">{{list.name}}</h3>
-     <button #itemContainer type="button" (click)="onCreate($event, list.id)">New</button>
-     <ul>
-      <li *ngFor="let item of list.items">
-        <app-items [item]="item"></app-items>
-      </li>
-     </ul>
-    </div>
-  `,
+  templateUrl: './lists.component.html',
   styleUrls: ['./lists.component.css']
 })
 export class ListsComponent implements OnInit {
-  lists = [];
-  @ViewChild('itemContainer', { read: ViewContainerRef }) itemContainer: ViewContainerRef;
+  lists: List[];
 
-  constructor(@Inject("lists-service") private listsService,
-    @Inject('dynamic-item-service') private dynamicItemService) {}
+  constructor(@Inject('lists-service') private listsService) {}
 
   ngOnInit() {
-    var lists = [];
+    this.getLists();
+  }
+
+  getLists(): void {
+    const resultedLists: ListInterface[] = [];
     const listsService = this.listsService;
-    let res = listsService.getLists();
-    res.subscribe((response) => {
-      response.forEach( function(list) {
-        let rest = listsService.findList(list.id);
-        rest.subscribe((response) => {
-          lists.push(response)
-        });
+    const gettedLists = listsService.getLists();
+    gettedLists.subscribe((lists: List[]) => {
+      lists.forEach(function(list: ListInterface) {
+        const gettedItems = listsService.findList(list.id);
+        gettedItems.subscribe(
+          (items) => {
+            list.items = items.items;
+            resultedLists.push(list);
+          },
+          (error: HttpErrorResponse) => {
+            if (error.error) {
+              console.log(error.message);
+            } else {
+              console.log('Error occurred in server side.');
+            }
+          }
+        );
       });
+    },
+    (error: HttpErrorResponse) => {
+      if (error.error) {
+        console.log(error.message);
+      } else {
+        console.log('Error occurred in server side.');
+      }
     });
-    this.lists = lists;
+    this.lists = resultedLists;
   }
-
-  onCreate(event, list_id) {
-    this.dynamicItemService.setRootViewContainerRef(this.itemContainer);
-    this.dynamicItemService.addDynamicComponent({list_id: list_id}, ItemsFormComponent);
-  }
-
-  selectList(event, id) {
-    console.log(id)
-  }
-
 }

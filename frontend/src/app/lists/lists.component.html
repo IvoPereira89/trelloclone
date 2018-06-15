@@ -1,0 +1,12 @@
+<div *ngIf="lists" class="grid grid-pad">
+  <div class="list col-1-4" *ngFor="let list of lists">
+    <h3>{{list.name | uppercase}}</h3>
+    <a mat-button routerLink="/lists/{{list.id}}/items/new">New Item</a>
+    <ul *ngIf="list.items">
+      <li *ngFor="let item of list.items" [class.selected]="item.editMode">
+        <app-items [item]="item" *ngIf="!item.editMode"></app-items>
+        <app-item-form [item]="item" *ngIf="item.editMode"></app-item-form>
+      </li>
+    </ul>
+  </div>
+</div>

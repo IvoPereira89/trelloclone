@@ -1,0 +1,5 @@
+<div #itemContainer>
+  <h4 (click)="selectItem()">{{item.title}}</h4>
+  <small>{{item.description}}</small>
+  <button class="delete" title="delete item" (click)="deleteItem($event, item)">x</button>
+</div>

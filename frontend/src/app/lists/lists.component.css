@@ -1,7 +1,28 @@
+[class*='col-'] {
+  float: left;
+  padding: 1px 15px 20px 15px;
+  margin-right: 15px;
+}
+
+[class*='col-']:last-of-type {
+  margin-right: 0px;
+}
+
+*, *:after, *:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.grid {
+  margin: 0;
+}
+
+.col-1-4 {
+  width: 25%;
+}
+
 .list
 {
-  padding: 1px 15px 20px 15px;
-  margin: 0 15px;
   border: 1px solid rgb(233, 233, 235);
   background-color: rgb(233, 233, 235);
   border-radius: 4px;
@@ -13,27 +34,33 @@
   color: #5d5d5f;
 }
 
-.list > button[type='button']
+.list > a
 {
   float: right;
-  margin-top: -37px;
+  margin-top: -43px;
 }
 
-.list ul
+ul
 {
   padding: 0;
   list-style-type: none;
 }
 
-.list ul > li
+ul > li
 {
   padding: 10px 15px;
   background-color: #FFFFFF;
   margin-bottom: 15px;
   border-radius: 5px;
+  position: relative;
 }
 
-.list ul > li:last-child
+ul > li.selected
+{
+  background-color: rgb(243, 243, 243);
+}
+
+ul > li:last-child
 {
   margin-bottom: 0;
 }

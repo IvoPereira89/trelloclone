@@ -1,0 +1,18 @@
+<div class="item-form">
+  <div>
+    <mat-label>Title</mat-label>
+    <input #itemTitle type="text" placeholder="Item's title" [(ngModel)]="item.title">
+  </div>
+  <div>
+    <mat-label>Description</mat-label>
+    <input #itemDescription type="text" placeholder="Item's description" [(ngModel)]="item.description">
+  </div>
+  <div>
+    <button mat-button type="button" (click)="onSave($event, {
+      id: item.id,
+      title: itemTitle.value,
+      description: itemDescription.value,
+      list_id: item.list_id
+    })">Save</button>
+  </div>
+</div>
