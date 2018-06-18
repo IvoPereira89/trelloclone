@@ -75,19 +75,19 @@ var itemsForList = function (query) {
     var config = []
     switch(Object.keys(query)[0]) {
       case "list_id":
-        config = ['list_id', query.list_id]
+        config = {list_id: query.list_id }
         break
       case "term":
-        config = ['title', query.term.toString().toLowerCase()]
+        config = {title: query.term.toString().toLowerCase()}
         break
       default:
-        config = ['list_id', query]
+        config = {list_id: query}
     }
     for (let item of db.items) {
-      if (config[0] !== 'title') {
-        if (item[config[0]] == config[1]) { items.push(item) }
+      if (config.title) {
+        if (item['title'].toLowerCase().includes(config.title)) { items.push(item) }
       } else {
-        if (item[config[0]].toLowerCase().includes(config[1])) { items.push(item); }
+        if (item['list_id'] == config.list_id) { items.push(item) }
       }
         
     }
