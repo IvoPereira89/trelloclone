@@ -1,0 +1,10 @@
+h4 {
+  margin: 0 0 10px;
+  cursor: pointer;
+}
+
+button.delete {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+}

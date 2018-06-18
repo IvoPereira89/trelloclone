@@ -1,0 +1,5 @@
+::ng-deep .list > app-item-form > div {
+  background-color: #FFFFFF;
+  border-radius: 4px;
+  padding: 10px 15px;
+}
